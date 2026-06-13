@@ -19,7 +19,7 @@ export default function MemberDocumentsTable({ documents }) {
             <MemberDocumentsRow key={idx} {...doc} />
           ))}
           {documents.length === 0 && (
-            <div style={{ textAlign: 'center', padding: '40px', color: '#9ca3af', fontSize: '13px' }}>
+            <div className="empty-state-message">
               No documents found.
             </div>
           )}

@@ -1,0 +1,21 @@
+/* Extracted inline styles for MemberSidebar */
+
+.sidebar__toggle-icon {
+  transition: transform 0.22s;
+}
+.sidebar__toggle-icon--collapsed {
+  transform: rotate(180deg);
+}
+
+.sidebar__item-label {
+  color: #8A949F;
+}
+.sidebar__item--active .sidebar__item-label {
+  color: #FF0915 !important;
+}
+
+.sidebar__logo-img {
+  width: 184px;
+  height: 56px;
+  object-fit: contain;
+}

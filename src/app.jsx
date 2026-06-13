@@ -9,7 +9,7 @@ import "./admin/css/Dashboard.css";
 
 /* MEMBER MODULE */
 import MemberDashboard from "./member/pages/MemberDashboard";
-import MemberSignYourself from "./member/components/MemberSignYourself";
+import MemberSignYourselfPage from "./member/pages/MemberSignYourselfPage";
 import MemberDocuments from "./member/pages/MemberDocuments";
 import MemberContactBook from "./member/pages/MemberContactBook";
 
@@ -29,10 +29,10 @@ export default function App() {
         <Route path="/member" element={<MemberDashboard />} />
         <Route path="/member-dashboard" element={<MemberDashboard />} />
         <Route path="/member-documents" element={<MemberDocuments />} />
-        <Route path="/member-sign-yourself" element={<MemberSignYourself />} />
+        <Route path="/member-sign-yourself" element={<MemberSignYourselfPage />} />
         <Route
           path="/member-request-signature"
-          element={<MemberSignYourself />}
+          element={<MemberSignYourselfPage />}
         />
         <Route path="/member-contact-book" element={<MemberContactBook />} />
 

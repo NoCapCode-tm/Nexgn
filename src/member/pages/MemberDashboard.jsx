@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import MemberSidebar from "../components/MemberSidebar";
 import MemberTopbar from "../components/MemberTopbar";
@@ -6,6 +6,7 @@ import MemberStatCard from "../components/MemberStatCard";
 import DocumentRow from "../../admin/components/DocumentRow";
 import MemberMobileNavbar from "../components/MemberMobileNavbar";
 import { Search, Bell, UserCircle, Menu } from "lucide-react";
+import { useWindowWidth } from "../components/useWindowWidth";
 import "../css/MemberDashboard.css"; // Scoped CSS Overrides
 
 const stats = [
@@ -79,18 +80,18 @@ const documents = [
   },
 ];
 
+const UploadIcon = () => (
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round"/>
+    <path d="M12 2C17.52 2 22 6.48 22 12C22 17.52 17.52 22 12 22" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeDasharray="3 3"/>
+    <path d="M12 17V7M12 7L7 12M12 7L17 12" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"/>
+  </svg>
+);
+
 export default function MemberDashboard() {
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
-  const [isMobile, setIsMobile] = useState(() => window.innerWidth <= 767);
+  const { isMobile } = useWindowWidth();
   const navigate = useNavigate();
-
-  useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth <= 767);
-    };
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
 
   return (
     <div className="layout member-theme">
@@ -115,7 +116,7 @@ export default function MemberDashboard() {
         {/* Mobile Navigation */}
         <header className="mobile-topbar">
           <button className="mobile-topbar__hamburger" onClick={() => {
-            if (window.innerWidth >= 768) {
+            if (!isMobile) {
               setMobileNavOpen(true);
             }
           }}>
@@ -138,8 +139,16 @@ export default function MemberDashboard() {
         <MemberTopbar />
 
         <div className="mobile-page-header">
-          <h1 className="topbar__title">Dashboard</h1>
-          <p className="topbar__sub">Overview Of your document signing activity</p>
+          <div className="mobile-page-header__row">
+            <div>
+              <h1 className="topbar__title">Dashboard</h1>
+              <p className="topbar__sub">Overview Of your document signing activity</p>
+            </div>
+            <button className="topbar__upload tablet-upload-btn" onClick={() => navigate("/member-sign-yourself")}>
+              <UploadIcon />
+              Upload Doc
+            </button>
+          </div>
           <div className="mobile-page-header__divider" />
         </div>
 

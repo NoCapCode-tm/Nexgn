@@ -1,15 +1,7 @@
 import { useState, useRef } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
-import MemberSidebar from './MemberSidebar'; 
-import MemberMobileNavbar from './MemberMobileNavbar';
-import '../../admin/css/Dashboard.css';
 import '../css/MemberSignYourself.css';
 
-export default function MemberSignYourself() {
-  const location = useLocation();
-  const navigate = useNavigate();
-
-  const activeTab = location.pathname === '/member-request-signature' ? 'request' : 'sign';
+export default function MemberSignYourself({ activeTab, handleTabChange }) {
 
   const [zoom, setZoom] = useState(100);
   const [uploadedFile, setUploadedFile] = useState(null);
@@ -18,7 +10,6 @@ export default function MemberSignYourself() {
   const [required, setRequired] = useState(true);
   const [fieldType, setFieldType] = useState('Signature');
   const [assignedTo, setAssignedTo] = useState('You');
-  const [mobileNavOpen, setMobileNavOpen] = useState(false);
   const fileInputRef = useRef(null);
 
   // Request Signature specific states
@@ -30,26 +21,7 @@ export default function MemberSignYourself() {
   ]);
   const [fieldAssignedTo, setFieldAssignedTo] = useState("Fresher / Freelancer / Intern");
 
-
-  const handleTabChange = (tab) => {
-    navigate(tab === 'request' ? '/member-request-signature' : '/member-sign-yourself');
-    if (tab === 'request') {
-      setDocTitle('');
-      setNote('');
-      setFieldType('NDA');
-      setRequired(true);
-      setExpiresIn('');
-      setSigners([
-        { name: "", email: "" }
-      ]);
-    } else {
-      setDocTitle('');
-      setNote('');
-      setFieldType('Signature');
-      setRequired(true);
-    }
-  };
-
+  // Tab changes handled by parent component
   const addSigner = () => {
     setSigners([...signers, { name: "", email: "" }]);
   };
@@ -86,7 +58,7 @@ export default function MemberSignYourself() {
           ref={fileInputRef}
           type="file"
           accept=".pdf"
-          style={{ display: 'none' }}
+          className="hidden-file-input"
           onChange={handleFile}
         />
       </div>
@@ -94,117 +66,8 @@ export default function MemberSignYourself() {
   );
 
   return (
-    <div className="layout member-theme member-sign-yourself-page">
-      {mobileNavOpen && (
-        <div className="mobile-backdrop" onClick={() => setMobileNavOpen(false)} />
-      )}
-      <div className={`mobile-sidebar-wrapper ${mobileNavOpen ? "mobile-sidebar-wrapper--open" : ""}`}>
-        <MemberSidebar />
-      </div>
-      <div className="desktop-sidebar-wrapper">
-        <MemberSidebar />
-      </div>
-
-      <div className="main">
-        {/* Mobile Navigation */}
-        <header className="mobile-topbar">
-          <button className="mobile-topbar__hamburger" onClick={() => {
-            if (window.innerWidth >= 768) {
-              setMobileNavOpen(true);
-            }
-          }}>
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1a1a2e" strokeWidth="2" strokeLinecap="round">
-              <line x1="3" y1="6" x2="21" y2="6"/>
-              <line x1="3" y1="12" x2="21" y2="12"/>
-              <line x1="3" y1="18" x2="21" y2="18"/>
-            </svg>
-          </button>
-          <span className="mobile-topbar__title">Signers</span>
-          <div className="mobile-topbar__icons">
-            <button className="topbar__icon-btn mobile-topbar__search-btn" onClick={(e) => e.preventDefault()}>
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FF0915" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
-              </svg>
-            </button>
-            <button className="topbar__icon-btn" onClick={(e) => e.preventDefault()}>
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FF0915" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
-                <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
-              </svg>
-            </button>
-            <button className="topbar__icon-btn" onClick={(e) => e.preventDefault()}>
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF0915" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
-                <circle cx="12" cy="7" r="4"/>
-              </svg>
-            </button>
-          </div>
-        </header>
-
-        <div className="mobile-page-header">
-          <h1 className="topbar__title">
-            {activeTab === 'sign' ? 'Sign Yourself' : 'Create Signature Request'}
-          </h1>
-          <p className="topbar__sub">
-            {activeTab === 'sign' ? 'Create and sign a document where you are the signer' : 'Send a document for signing or sign it yourself'}
-          </p>
-        </div>
-        <hr className="mobile-header-divider" />
-
-        <div className="topbar desktop-topbar">
-          <div className="topbar__top-row">
-            <div className="topbar__icons">
-              <button className="topbar__icon-btn" aria-label="Search" onClick={(e) => e.preventDefault()}>
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
-                  stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
-                </svg>
-              </button>
-              <button className="topbar__icon-btn" aria-label="Notifications" onClick={(e) => e.preventDefault()}>
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
-                  stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
-                  <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
-                </svg>
-              </button>
-              <button className="topbar__icon-btn" aria-label="Profile" onClick={(e) => e.preventDefault()}>
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
-                  stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
-                  <circle cx="12" cy="7" r="4"/>
-                </svg>
-              </button>
-            </div>
-          </div>
-          <div className="topbar__bottom-row">
-            <div>
-              <div className="topbar__title">
-                {activeTab === 'sign' ? 'Sign Yourself' : 'Create Signature Request'}
-              </div>
-              <div className="topbar__sub">
-                {activeTab === 'sign' ? 'Create and sign a document where you are the signer' : 'Send a document for signing or sign it yourself'}
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* MOBILE TABS */}
-        <div className="mobile-tabs-container">
-          <button
-            className={`tab-btn ${activeTab === 'sign' ? 'tab-btn--active' : 'tab-btn--inactive'}`}
-            onClick={() => handleTabChange('sign')}
-          >
-            Sign Yourself
-          </button>
-          <button
-            className={`tab-btn ${activeTab === 'request' ? 'tab-btn--active' : 'tab-btn--inactive'}`}
-            onClick={() => handleTabChange('request')}
-          >
-            Request Signature
-          </button>
-        </div>
-
-        <div className="setup-card">
+    <>
+      <div className="setup-card">
           <div className="setup-card-top">
           <div className="setup-card__header">
             <span className="setup-card__title">Document Setup</span>
@@ -383,7 +246,7 @@ export default function MemberSignYourself() {
                 <div className="signer-box">
                   {signers.map((signer, index) => (
                     <div className="signer-row" key={index}>
-                      <div className="form-group" style={{ flex: 1 }}>
+                      <div className="form-group form-group--expanded">
                         <label className="form-label">Signer</label>
                         <input
                           type="text"
@@ -397,7 +260,7 @@ export default function MemberSignYourself() {
                           placeholder={index === 0 ? "Blair Croft" : "Signer Name"}
                         />
                       </div>
-                      <div className="form-group" style={{ flex: 1 }}>
+                      <div className="form-group form-group--expanded">
                         <label className="form-label">Signer Email</label>
                         <input
                           type="text"
@@ -604,8 +467,6 @@ export default function MemberSignYourself() {
             )}
           </div>
         </div>
-      </div>
-      <MemberMobileNavbar />
-    </div>
+    </>
   );
 }

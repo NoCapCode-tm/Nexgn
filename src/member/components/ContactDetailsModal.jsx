@@ -69,7 +69,7 @@ export default function ContactDetailsModal({ contact, onClose }) {
         <div className="contact-details-card">
           <div className="contact-details-card-header">Personal Information</div>
           <div className="contact-details-card-body">
-            <div className="add-contact-grid" style={{ gap: '20px 60px' }}>
+            <div className="add-contact-grid add-contact-grid--wide-gap">
               <div className="contact-detail-field">
                 <label>Full Name</label>
                 <div className="detail-val">{contact.name}</div>
@@ -95,10 +95,10 @@ export default function ContactDetailsModal({ contact, onClose }) {
         </div>
 
         {/* Professional Information */}
-        <div className="contact-details-card" style={{ marginTop: '20px' }}>
+        <div className="contact-details-card contact-details-card--secondary">
           <div className="contact-details-card-header">Professional Information</div>
           <div className="contact-details-card-body">
-            <div className="add-contact-grid" style={{ gap: '20px 60px' }}>
+            <div className="add-contact-grid add-contact-grid--wide-gap">
               <div className="contact-detail-field">
                 <label>Company Name</label>
                 <div className="detail-val">Acme Corp</div>
@@ -121,7 +121,7 @@ export default function ContactDetailsModal({ contact, onClose }) {
               </div>
             </div>
             
-            <div className="contact-detail-field add-contact-field-full" style={{ marginTop: '20px' }}>
+            <div className="contact-detail-field add-contact-field-full contact-detail-field--padded-top">
               <label>Skills</label>
               <div className="skills-row">
                 <span className="skill-pill">Contract Review</span>

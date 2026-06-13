@@ -76,6 +76,7 @@ export default function MemberDocumentsRow({ title, note, signers, signedAt, own
       
       <div className="member-doc-row__cell desktop-status" data-label="STATUS">
         <span className={`member-badge member-badge--${status.toLowerCase()}`}>{status}</span>
+        <span className={`member-docs-status-dot member-docs-status-dot--${status.toLowerCase()}`}></span>
       </div>
       
       <div className="member-doc-row__menu">

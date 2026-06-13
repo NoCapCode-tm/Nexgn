@@ -4,6 +4,7 @@ import MemberMobileNavbar from "../components/MemberMobileNavbar";
 import MemberContactCard from "../components/MemberContactCard";
 import ContactDetailsModal from "../components/ContactDetailsModal";
 import { Search, Bell, UserCircle, Menu } from "lucide-react";
+import { useWindowWidth } from "../components/useWindowWidth";
 import AddContactForm from "../components/AddContactForm";
 
 import "../css/MemberContactBook.css";
@@ -50,6 +51,7 @@ export default function MemberContactBook() {
   const [search, setSearch] = useState("");
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [selectedContact, setSelectedContact] = useState(null);
+  const { isMobile } = useWindowWidth();
 
   const filteredContacts = CONTACTS.filter(
     c =>
@@ -79,7 +81,11 @@ export default function MemberContactBook() {
       <div className="main">
         {/* Mobile Navigation */}
         <header className="mobile-topbar">
-          <button className="mobile-topbar__hamburger" onClick={() => setMobileNavOpen(true)}>
+          <button className="mobile-topbar__hamburger" onClick={() => {
+            if (!isMobile) {
+              setMobileNavOpen(true);
+            }
+          }}>
             <Menu size={22} color="#1a1a2e" />
           </button>
           <span className="mobile-topbar__title">Dashboard</span>
@@ -137,7 +143,7 @@ export default function MemberContactBook() {
               <MemberContactCard key={i} name={c.name} email={c.email} onClick={() => setSelectedContact(c)} />
             ))}
             {filteredContacts.length === 0 && (
-              <div style={{ textAlign: 'center', padding: '40px', color: '#9ca3af', fontSize: '14px' }}>
+              <div className="empty-state-message">
                 No contacts found.
               </div>
             )}
